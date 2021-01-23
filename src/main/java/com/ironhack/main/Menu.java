@@ -1,34 +1,32 @@
 package com.ironhack.main;
 
-import com.ironhack.classes.Lead;
-import com.ironhack.classes.LeadList;
-import com.ironhack.classes.Opportunity;
+import com.ironhack.classes.*;
+import com.ironhack.enums.Industry;
+import com.ironhack.enums.Product;
 
-import java.util.Arrays;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Menu {
     private LeadList leadList;
+    // todo private Map<Integer, Account> accountMap;
 
     public void show(){
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-
             System.out.print("Please, enter your command: ");
             String userInput = scanner.nextLine();
-
             if (userInput.isEmpty()) continue;
 
             Command command = checkCommand(userInput);
-
             if (command.equals(Command.UNKNOWN)) continue;
 
             String[] inputArgs = getArgsFromInput(userInput);
             switch(command) {
                 case NEW_LEAD:
-                    // todo newLead()
+                    newLead();
                     break;
 
                 case LOOKUP_LEAD:
@@ -38,22 +36,23 @@ public class Menu {
                     break;
 
                 case SHOW_LEADS:
-                    System.out.println(leadList);
+                    showLeads();
                     break;
 
                 case CONVERT_LEAD:
                     int idToConvert = Integer.parseInt(inputArgs[1]);
-                    Opportunity opp = convertLead(idToConvert);
+                    Account account = convertLead(idToConvert);
+                    // todo accountMap.put(account.getId(), account);
                     break;
 
                 case CLOSE_WON_OPP:
                     int idToCloseWon = Integer.parseInt(inputArgs[1]);
-                    Opportunity oppWon = closeWonOpp(idToCloseWon);
+                    closeWonOpp(idToCloseWon);
                     break;
 
                 case CLOSE_LOST_OPP:
                     int idToCloseLost = Integer.parseInt(inputArgs[1]);
-                    Opportunity oppLost = closeLostOpp(idToCloseLost);
+                    closeLostOpp(idToCloseLost);
                     break;
 
                 default:
@@ -137,8 +136,31 @@ public class Menu {
     }
 
     private Lead newLead() {
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("New Lead\n--------------");
+        System.out.print("Name: ");
+        String name = scanner.nextLine().trim();
+        System.out.print("Phone number: ");
+        String phoneNumber = scanner.nextLine().trim();
+        System.out.print("Email address: ");
+        String email = scanner.nextLine().trim();
+        System.out.println("Company name: ");
+        String companyName = scanner.nextLine().trim();
+
+        System.out.println("New lead created:");
+        System.out.println(name);
+        System.out.println(phoneNumber);
+        System.out.println(email);
+        System.out.println(companyName);
+
         // todo add new created Lead to LeadList
         return null;
+    }
+
+    private void showLeads() {
+        //leadList.show();
+        System.out.println(leadList);
     }
 
     private Lead lookupLead(int id) {
@@ -146,22 +168,66 @@ public class Menu {
         return null;
     }
 
-    private Opportunity convertLead(int id) {
+    private Account convertLead(int id) {
         Lead lead = lookupLead(id);
-        // todo return lead.convertToOpportunity();
+
+        // todo lanzar exception desde lookupLead?
+        if (lead == null)
+            throw new RuntimeException("The lead with id=" + id + " does not exist.");
+
+        Contact decisionMaker = createContact(lead);
+        Opportunity opportunity = createOpportunity(lead);
+        Account account = createAccount(decisionMaker, opportunity);
+
+        return account;
+    }
+
+    private Contact createContact(Lead lead) {
+        // todo return newContact
         return null;
     }
 
-    private Opportunity closeWonOpp(int id) {
-        // todo
+    private Opportunity createOpportunity(Lead lead) {
+        Scanner scanner = new Scanner(System.in);
+        int productOption = 0;
+        do {
+            System.out.print("Product ([1]HYBRID [2]FLATBED [3]BOX): ");
+            productOption = Integer.parseInt(scanner.nextLine().trim());
+        } while (productOption < 1 || productOption > 3);
+        Product product = Product.values()[productOption-1];
+        System.out.print("Quantity: ");
+        int quantity = Integer.parseInt(scanner.nextLine().trim());
+
+        // todo return lead.convertToOpportunity(product, quantity);
         return null;
     }
 
-    private Opportunity closeLostOpp(int id) {
-        // todo
+    private Account createAccount(Contact contact, Opportunity opportunity) {
+        Scanner scanner = new Scanner(System.in);
+        int industryOption = 0;
+        do {
+            System.out.print("Industry ([1]PRODUCE [2]ECOMMERCE [3]MANUFACTURING [4]MEDICAL [5]OTHER): ");
+            industryOption = Integer.parseInt(scanner.nextLine().trim());
+        } while (industryOption < 1 || industryOption > 3);
+        Industry industry = Industry.values()[industryOption-1];
+        System.out.print("Number of employees: ");
+        int employeeCount = Integer.parseInt(scanner.nextLine().trim());
+        System.out.print("City: ");
+        String city = scanner.nextLine().trim();
+        System.out.print("Country: ");
+        String country = scanner.nextLine().trim();
+
+        // todo return new Account(contact, opportunity, industry, employeeCount, city, country);
         return null;
     }
 
 
+    private void closeWonOpp(int id) {
+        // todo getOpportunity(id).closeWon()
+    }
+
+    private void closeLostOpp(int id) {
+        // todo getOpportunity(id).closeLost()
+    }
 
 }
