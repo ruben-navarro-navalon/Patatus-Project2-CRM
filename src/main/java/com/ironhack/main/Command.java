@@ -8,4 +8,5 @@ public enum Command {
     CONVERT_LEAD,
     CLOSE_LOST_OPP,
     CLOSE_WON_OPP,
+    EXIT
 }

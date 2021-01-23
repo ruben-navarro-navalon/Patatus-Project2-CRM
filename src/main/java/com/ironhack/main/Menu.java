@@ -16,7 +16,7 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.print("Please, enter your command: ");
+            System.out.print("CRM:> ");
             String userInput = scanner.nextLine();
             if (userInput.isEmpty()) continue;
 
@@ -55,8 +55,9 @@ public class Menu {
                     closeLostOpp(idToCloseLost);
                     break;
 
+                case EXIT:
                 default:
-                    break;
+                    return;
             }
         }
     }
@@ -71,8 +72,12 @@ public class Menu {
 
         try {
             // at least two args are present
-            if (inputArgs.length < 2)
+            if (inputArgs.length < 2) {
+                // except the special command exit
+                if (inputArgs[0].equals("EXIT"))
+                    return Command.EXIT;
                 throw new IllegalArgumentException();
+            }
 
             // first we check the second input string
             switch (inputArgs[1]) {
@@ -130,7 +135,8 @@ public class Menu {
         }
         catch (Exception e)
         {
-            System.err.println(userInput + ": unknown command");
+            //System.err.println(userInput + ": unknown command");
+            System.out.println(userInput + ": unknown command");
         }
         return Command.UNKNOWN;
     }
@@ -145,7 +151,7 @@ public class Menu {
         String phoneNumber = scanner.nextLine().trim();
         System.out.print("Email address: ");
         String email = scanner.nextLine().trim();
-        System.out.println("Company name: ");
+        System.out.print("Company name: ");
         String companyName = scanner.nextLine().trim();
 
         System.out.println("New lead created:");
@@ -153,6 +159,7 @@ public class Menu {
         System.out.println(phoneNumber);
         System.out.println(email);
         System.out.println(companyName);
+        System.out.println("--------------");
 
         // todo add new created Lead to LeadList
         return null;
@@ -172,8 +179,8 @@ public class Menu {
         Lead lead = lookupLead(id);
 
         // todo lanzar exception desde lookupLead?
-        if (lead == null)
-            throw new RuntimeException("The lead with id=" + id + " does not exist.");
+//        if (lead == null)
+//            throw new RuntimeException("The lead with id=" + id + " does not exist.");
 
         Contact decisionMaker = createContact(lead);
         Opportunity opportunity = createOpportunity(lead);
@@ -193,7 +200,7 @@ public class Menu {
         do {
             System.out.print("Product ([1]HYBRID [2]FLATBED [3]BOX): ");
             productOption = Integer.parseInt(scanner.nextLine().trim());
-        } while (productOption < 1 || productOption > 3);
+        } while (productOption < 1 || productOption > Product.values().length);
         Product product = Product.values()[productOption-1];
         System.out.print("Quantity: ");
         int quantity = Integer.parseInt(scanner.nextLine().trim());
@@ -208,7 +215,7 @@ public class Menu {
         do {
             System.out.print("Industry ([1]PRODUCE [2]ECOMMERCE [3]MANUFACTURING [4]MEDICAL [5]OTHER): ");
             industryOption = Integer.parseInt(scanner.nextLine().trim());
-        } while (industryOption < 1 || industryOption > 3);
+        } while (industryOption < 1 || industryOption > Industry.values().length);
         Industry industry = Industry.values()[industryOption-1];
         System.out.print("Number of employees: ");
         int employeeCount = Integer.parseInt(scanner.nextLine().trim());
