@@ -11,22 +11,22 @@ public class Lead {
     // To generate autoincrementID:
     private static int idGenerator = 0;
 
-    // Constructor HAY QUE PASARLE ID O NO?
-    public Lead(int id, String name, String phoneNumber, String email, String companyName) {
-        setId(id);
+    // Constructor
+    public Lead(String name, String phoneNumber, String email, String companyName) {
+        setId();
         setName(name);
         setPhoneNumber(phoneNumber);
         setEmail(email);
         setCompanyName(companyName);
     }
 
-    // Methods
-    public Opportunity convertToOpportunity(Lead lead) {
-        Contact contact = new Contact(getName(), getPhoneNumber(),getEmail(),getCompanyName());
-        // meto aqui el scanner para la info, o creamos una funcion para recoger la info y la invoco aqui
-        Opportunity opportunity = new Opportunity();
-        return opportunity;
-    }
+     // Methods
+//    public Opportunity convertToOpportunity(Lead lead) {
+//        Contact contact = new Contact(getName(), getPhoneNumber(),getEmail(),getCompanyName());
+//        // meto aqui el scanner para la info, o creamos una funcion para recoger la info y la invoco aqui
+//        Opportunity opportunity = new Opportunity(lead, );
+//        return opportunity;
+//    }
 
     /** Remove. duda */
 //    public void remove() throws Throwable {
@@ -38,7 +38,7 @@ public class Lead {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId() {
         this.id = generateId();
     }
 
@@ -76,6 +76,17 @@ public class Lead {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    @Override
+    public String toString() {
+        return "Lead{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", companyName='" + companyName + '\'' +
+                '}';
     }
 }
 
