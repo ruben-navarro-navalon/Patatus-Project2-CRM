@@ -11,13 +11,8 @@ public enum Industry {
 
     private final String name;
 
-    Industry() {
-        this.name = this.name();
-    }
-
-    Industry(String name) {
-        this.name = name;
-    }
+    Industry() { this.name = this.name();}
+    Industry(String name) { this.name = name; }
 
     public String getName() {
         return this.name;
@@ -42,8 +37,12 @@ public enum Industry {
     public static String showOptions() {
         String options = "";
         for(Industry industry : values) {
-            options += "[" + (industry.ordinal()+1) + "]" + industry.getName() + " ";
+            options += "[" + (industry.ordinal()+1) + "]" + industry/*.getName()*/ + " ";
         }
         return options.trim();
+    }
+
+    public String toString() {
+        return getName();
     }
 }

@@ -6,12 +6,8 @@ public enum Product {
     BOX("Box");
 
     private final String name;
-    Product() {
-        this.name = this.name();
-    }
-    Product(String name) {
-        this.name = name;
-    }
+    Product() { this.name = this.name(); }
+    Product(String name) { this.name = name; }
 
     public String getName() {
         return this.name;
@@ -36,8 +32,12 @@ public enum Product {
     public static String showOptions() {
         String options = "";
         for(Product product : values) {
-            options += "[" + (product.ordinal()+1) + "]" + product.getName() + " ";
+            options += "[" + (product.ordinal()+1) + "]" + product/*.getName()*/ + " ";
         }
         return options.trim();
+    }
+
+    public String toString() {
+        return getName();
     }
 }
