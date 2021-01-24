@@ -1,6 +1,6 @@
 package com.ironhack.main;
 
-import com.ironhack.main.menu.Command;
+import com.ironhack.main.menu.command.Command;
 import com.ironhack.main.menu.Menu;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

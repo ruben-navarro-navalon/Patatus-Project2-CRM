@@ -3,10 +3,18 @@ package com.ironhack.main.menu;
 import com.ironhack.classes.*;
 import com.ironhack.enums.Industry;
 import com.ironhack.enums.Product;
+import com.ironhack.main.menu.command.Command;
+import com.ironhack.main.menu.command.Keyword;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Menu {
+
+    private static final String USER_PROMPT = "CRM:> ";
+    private static final String HELP_FILEPATH = "src/main/resources/.help";
+
+
     private LeadList leadList;
     // todo private Map<Integer, Account> accountMap;
 
@@ -15,7 +23,7 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.print("CRM:> ");
+            System.out.print(USER_PROMPT);
             String userInput = scanner.nextLine();
             if (userInput.isEmpty()) continue;
 
@@ -54,6 +62,19 @@ public class Menu {
                     closeLostOpp(idToCloseLost);
                     break;
 
+                case HELP:
+                    try {
+                        File file = new File(HELP_FILEPATH);
+                        Scanner fileScanner = new Scanner(file);
+                        while(fileScanner.hasNextLine()) {
+                            System.out.println(fileScanner.nextLine());
+                        }
+                    }
+                    catch (Exception e) {
+                        System.out.println("Error: Help file could not be found.");
+                    }
+                    break;
+
                 case EXIT:
                 default:
                     return;
@@ -72,21 +93,23 @@ public class Menu {
         try {
             // at least two args are present
             if (inputArgs.length < 2) {
-                // except the special command exit
-                if (inputArgs[0].equals("EXIT"))
+                // except the special commands help, exit
+                if (inputArgs[0].equals(Keyword.HELP))
+                    return Command.HELP;
+                if (inputArgs[0].equals(Keyword.EXIT))
                     return Command.EXIT;
                 throw new IllegalArgumentException();
             }
 
             // first we check the second input string
             switch (inputArgs[1]) {
-                case "LEAD":
+                case Keyword.LEAD:
                     switch (inputArgs[0]) {
-                        case "NEW":
+                        case Keyword.NEW:
                             if (inputArgs.length <= 2)
                                 return Command.NEW_LEAD;
                             throw new IllegalArgumentException();
-                        case "LOOKUP":
+                        case Keyword.LOOKUP:
                             if (inputArgs.length <= 3) {
                                 Integer.parseInt(inputArgs[2]);
                                 return Command.LOOKUP_LEAD;
@@ -96,8 +119,8 @@ public class Menu {
                             throw new IllegalArgumentException();
                     }
 
-                case "LEADS":
-                    if (inputArgs[0].equals("SHOW") && inputArgs.length <= 2)
+                case Keyword.LEADS:
+                    if (inputArgs[0].equals(Keyword.SHOW) && inputArgs.length <= 2)
                         return Command.SHOW_LEADS;
                     throw new IllegalArgumentException();
 
@@ -107,24 +130,24 @@ public class Menu {
 
             // then we check the first input string
             switch (inputArgs[0]) {
-                case "CONVERT":
+                case Keyword.CONVERT:
                     if (inputArgs.length <= 2) {
                         Integer.parseInt(inputArgs[1]);
                         return Command.CONVERT_LEAD;
                     }
                     throw new IllegalArgumentException();
 
-                case "CLOSE-LOST":
-                    if (inputArgs.length <= 2) {
-                        Integer.parseInt(inputArgs[1]);
-                        return Command.CLOSE_LOST_OPP;
-                    }
-                    throw new IllegalArgumentException();
-
-                case "CLOSE-WON":
+                case Keyword.CLOSE_WON:
                     if (inputArgs.length <= 2){
                         Integer.parseInt(inputArgs[1]);
                         return Command.CLOSE_WON_OPP;
+                    }
+                    throw new IllegalArgumentException();
+
+                case Keyword.CLOSE_LOST:
+                    if (inputArgs.length <= 2) {
+                        Integer.parseInt(inputArgs[1]);
+                        return Command.CLOSE_LOST_OPP;
                     }
                     throw new IllegalArgumentException();
 
