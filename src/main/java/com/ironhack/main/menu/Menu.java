@@ -88,83 +88,7 @@ public class Menu {
     }
 
     public Command checkCommand(String userInput) {
-
         return Command.getCommand(userInput);
-
-//        String[] inputArgs = getArgsFromInput(userInput);
-//
-//        try {
-//            // at least two args are present
-//            if (inputArgs.length < 2) {
-//                // except the special commands help, exit
-//                if (inputArgs[0].equals(Keyword.HELP))
-//                    return Command.HELP;
-//                if (inputArgs[0].equals(Keyword.EXIT))
-//                    return Command.EXIT;
-//
-//                throw new IllegalArgumentException();
-//            }
-//
-//            // first we check the second input string
-//            switch (inputArgs[1]) {
-//                case Keyword.LEAD:
-//                    switch (inputArgs[0]) {
-//                        case Keyword.NEW:
-//                            if (inputArgs.length <= 2)
-//                                return Command.NEW_LEAD;
-//                            throw new IllegalArgumentException();
-//                        case Keyword.LOOKUP:
-//                            if (inputArgs.length <= 3) {
-//                                Integer.parseInt(inputArgs[2]);
-//                                return Command.LOOKUP_LEAD;
-//                            }
-//                            throw new IllegalArgumentException();
-//                        default:
-//                            throw new IllegalArgumentException();
-//                    }
-//
-//                case Keyword.LEADS:
-//                    if (inputArgs[0].equals(Keyword.SHOW) && inputArgs.length <= 2)
-//                        return Command.SHOW_LEADS;
-//                    throw new IllegalArgumentException();
-//
-//                default:
-//                    break;
-//            }
-//
-//            // then we check the first input string
-//            switch (inputArgs[0]) {
-//                case Keyword.CONVERT:
-//                    if (inputArgs.length <= 2) {
-//                        Integer.parseInt(inputArgs[1]);
-//                        return Command.CONVERT_LEAD;
-//                    }
-//                    throw new IllegalArgumentException();
-//
-//                case Keyword.CLOSE_WON:
-//                    if (inputArgs.length <= 2){
-//                        Integer.parseInt(inputArgs[1]);
-//                        return Command.CLOSE_WON_OPP;
-//                    }
-//                    throw new IllegalArgumentException();
-//
-//                case Keyword.CLOSE_LOST:
-//                    if (inputArgs.length <= 2) {
-//                        Integer.parseInt(inputArgs[1]);
-//                        return Command.CLOSE_LOST_OPP;
-//                    }
-//                    throw new IllegalArgumentException();
-//
-//                default:
-//                    throw new IllegalArgumentException();
-//            }
-//        }
-//        catch (Exception e)
-//        {
-//            //System.err.println(userInput + ": unknown command");
-//            System.out.println(userInput + ": unknown command");
-//        }
-//        return Command.UNKNOWN;
     }
 
     private Lead newLead() {
@@ -222,12 +146,14 @@ public class Menu {
 
     private Opportunity createOpportunity(Lead lead) {
         Scanner scanner = new Scanner(System.in);
-        int productOption = 0;
+
+        String productOption = "";
         do {
-            System.out.print("Product ([1]HYBRID [2]FLATBED [3]BOX): ");
-            productOption = Integer.parseInt(scanner.nextLine().trim());
-        } while (productOption < 1 || productOption > Product.values().length);
-        Product product = Product.values()[productOption-1];
+            System.out.print("Product (" + Product.showOptions() + "): ");
+            productOption = scanner.nextLine().trim();
+        } while (!Product.isValid(productOption));
+        Product product = Product.get(productOption);
+
         System.out.print("Quantity: ");
         int quantity = Integer.parseInt(scanner.nextLine().trim());
 
@@ -237,12 +163,14 @@ public class Menu {
 
     private Account createAccount(Contact contact, Opportunity opportunity) {
         Scanner scanner = new Scanner(System.in);
-        int industryOption = 0;
+
+        String industryOption = "";
         do {
-            System.out.print("Industry ([1]PRODUCE [2]ECOMMERCE [3]MANUFACTURING [4]MEDICAL [5]OTHER): ");
-            industryOption = Integer.parseInt(scanner.nextLine().trim());
-        } while (industryOption < 1 || industryOption > Industry.values().length);
-        Industry industry = Industry.values()[industryOption-1];
+            System.out.print("Industry (" + Industry.showOptions() + "): ");
+            industryOption = scanner.nextLine().trim();
+        } while (!Industry.isValid(industryOption));
+        Industry industry = Industry.get(industryOption);
+
         System.out.print("Number of employees: ");
         int employeeCount = Integer.parseInt(scanner.nextLine().trim());
         System.out.print("City: ");
