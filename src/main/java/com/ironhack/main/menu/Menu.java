@@ -216,7 +216,7 @@ public class Menu {
     }
 
     private Contact createContact(Lead lead) {
-        // todo return newContact
+        // todo return new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
         return null;
     }
 
