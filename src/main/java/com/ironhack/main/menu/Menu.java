@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Menu {
 
-    private static final String USER_PROMPT = "CRM:> ";
+    private static final String USER_PROMPT = MenuColors.setColorYellow("CRM:>") + " ";
     private static final String HELP_FILEPATH = "src/main/resources/.help";
 
 
@@ -67,16 +67,16 @@ public class Menu {
                         File file = new File(HELP_FILEPATH);
                         Scanner fileScanner = new Scanner(file);
                         while(fileScanner.hasNextLine()) {
-                            System.out.println(fileScanner.nextLine());
+                            System.out.println(MenuColors.setColorYellow(fileScanner.nextLine()));
                         }
                     }
                     catch (Exception e) {
-                        System.out.println("Error: Help file could not be found.");
+                        System.out.println(MenuColors.setColorRed("Error: Help file could not be found."));
                     }
                     break;
 
                 case UNKNOWN:
-                    System.out.println("'" + userInput + "' is not a valid command.");
+                    System.out.println(MenuColors.setColorRed("'" + userInput + "' is not a valid command."));
                     break;
 
                 case EXIT:
