@@ -28,8 +28,7 @@ public class Menu {
             if (userInput.isEmpty()) continue;
 
             Command command = checkCommand(userInput);
-
-            if (command.equals(Command.UNKNOWN)) continue;
+            //if (command.equals(Command.UNKNOWN)) continue;
 
             String[] inputArgs = getArgsFromInput(userInput);
             switch(command) {
@@ -74,6 +73,10 @@ public class Menu {
                     catch (Exception e) {
                         System.out.println("Error: Help file could not be found.");
                     }
+                    break;
+
+                case UNKNOWN:
+                    System.out.println("'" + userInput + "' is not a valid command.");
                     break;
 
                 case EXIT:
