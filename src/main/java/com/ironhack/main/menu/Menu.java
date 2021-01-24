@@ -7,7 +7,9 @@ import com.ironhack.main.menu.command.Command;
 import com.ironhack.main.menu.command.Keyword;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import static com.ironhack.classes.Opportunity.getOpportunity;
@@ -19,7 +21,8 @@ public class Menu {
 
 
     private LeadList leadList = new LeadList(new HashMap<>());
-    // todo private Map<Integer, Account> accountMap;
+    private Map<Integer, Account> accountMap = new HashMap<>();
+    // private Map<String, Account> accountMap = new HashMap<>();
 
     public void show(){
 
@@ -52,7 +55,8 @@ public class Menu {
                 case CONVERT_LEAD:
                     int idToConvert = command.getArg(inputArgs);
                     Account account = convertLead(idToConvert);
-                    // todo accountMap.put(account.getId(), account);
+                    //accountMap.put(account.getContactList().get(0).getCompanyName(), account);
+                    accountMap.put(account.getId(), account);
                     break;
 
                 case CLOSE_WON_OPP:
@@ -117,13 +121,10 @@ public class Menu {
         System.out.println(companyName);
         System.out.println("--------------");
 
-
-        // todo add new created Lead to LeadList
         return new Lead(name, phoneNumber, email, companyName);
     }
 
     private void showLeads() {
-        //leadList.show();
         System.out.println(leadList);
     }
 
@@ -139,7 +140,7 @@ public class Menu {
 //            throw new RuntimeException("The lead with id=" + id + " does not exist.");
 
         Contact decisionMaker = createContact(lead);
-        Opportunity opportunity = createOpportunity(lead);
+        Opportunity opportunity = createOpportunity(decisionMaker);
         Account account = createAccount(decisionMaker, opportunity);
 
         return account;
@@ -149,7 +150,7 @@ public class Menu {
         return new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
     }
 
-    private Opportunity createOpportunity(Lead lead) {
+    private Opportunity createOpportunity(Contact decisionMaker) {
         Scanner scanner = new Scanner(System.in);
 
         String productOption = "";
@@ -162,8 +163,7 @@ public class Menu {
         System.out.print("Quantity: ");
         int quantity = Integer.parseInt(scanner.nextLine().trim());
 
-        // todo return lead.convertToOpportunity(product, quantity);
-        return null;
+        return new Opportunity(decisionMaker, product, quantity);
     }
 
     private Account createAccount(Contact contact, Opportunity opportunity) {
@@ -183,8 +183,11 @@ public class Menu {
         System.out.print("Country: ");
         String country = scanner.nextLine().trim();
 
-        // todo return new Account(contact, opportunity, industry, employeeCount, city, country);
-        return null;
+        Account account = new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>());
+        account.addToContactList(contact);
+        account.addToOpportunityList(opportunity);
+
+        return account;
     }
 
 

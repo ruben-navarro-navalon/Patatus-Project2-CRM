@@ -46,6 +46,17 @@ public class Opportunity {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Opportunity{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", decisionMaker=" + decisionMaker +
+                ", status=" + status +
+                ", product=" + product +
+                '}';
+    }
+
     //Getters and setters
     public void setId() {
         this.id = generateId();

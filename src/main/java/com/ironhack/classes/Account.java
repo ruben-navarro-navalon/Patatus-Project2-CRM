@@ -15,6 +15,8 @@ public class Account {
     private List<Contact> contactList;
     private List<Opportunity> opportunityList;
 
+    private final static List<Account> accountList = new ArrayList<>();
+
     // This is for the incremented self-generated id:
     private static int idGenerator = 0;
 
@@ -27,6 +29,27 @@ public class Account {
         setCountry(country);
         setContactList(contactList);
         setOpportunityList(opportunityList);
+        accountList.add(this);
+    }
+
+    public void addToContactList(Contact contact){
+        getContactList().add(contact);
+    }
+    public void addToOpportunityList(Opportunity opportunity){
+        getOpportunityList().add(opportunity);
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", industry=" + industry +
+                ", employeeCount=" + employeeCount +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", contactList=" + contactList +
+                ", opportunityList=" + opportunityList +
+                '}';
     }
 
     // Gettes & Setters:
@@ -88,5 +111,9 @@ public class Account {
 
     public void setOpportunityList(List<Opportunity> opportunityList) {
         this.opportunityList = opportunityList;
+    }
+
+    public static List<Account> getAccountList() {
+        return accountList;
     }
 }
