@@ -15,6 +15,8 @@ public class LeadList {
     }
 
     //Methods
+
+    // Show the list of Leads
     public List<Lead> showLeads() {
         List<Lead> leadsList = new ArrayList<>();
         for (Lead lead : leads.values()) {
@@ -28,6 +30,11 @@ public class LeadList {
         return leads.get(id);
         // poner print dentro del metodo??
     }
+    /** remove, duda */
+//    public void remove(int id) {
+//        leads.get(id) = null;
+//        leads.remove(id);
+//    }
 
     // Getters & Setters
     public Map<Integer, Lead> getLeads() {

@@ -11,7 +11,7 @@ public class Lead {
     // To generate autoincrementID:
     private static int idGenerator = 0;
 
-    // Constructor
+    // Constructor HAY QUE PASARLE ID O NO?
     public Lead(int id, String name, String phoneNumber, String email, String companyName) {
         setId(id);
         setName(name);
@@ -28,9 +28,10 @@ public class Lead {
         return opportunity;
     }
 
-    public void remove() {
-
-    }
+    /** Remove. duda */
+//    public void remove() throws Throwable {
+//        this = null;
+//    }
 
     //Getters & Setters
     public int getId() {
