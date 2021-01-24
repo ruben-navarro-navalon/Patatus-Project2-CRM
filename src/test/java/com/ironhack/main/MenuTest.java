@@ -165,4 +165,18 @@ class MenuTest {
         assertEquals(Command.UNKNOWN, menu.checkCommand(input));
     }
 
+    @Test
+    void checkCommand_help_HELP() {
+        String input = "help";
+        assertEquals(Command.HELP, menu.checkCommand(input));
+    }
+
+
+    @Test
+    void checkCommand_exit_EXIT() {
+        String input = "exit";
+        assertEquals(Command.EXIT, menu.checkCommand(input));
+    }
+
+
 }

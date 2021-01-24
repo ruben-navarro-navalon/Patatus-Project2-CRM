@@ -1,4 +1,3 @@
-
 Usage of the CRM console commands:
 
  - new lead				Creates and registers a new Lead in the system.
@@ -10,5 +9,4 @@ Usage of the CRM console commands:
  - close-lost <id>		Closes an Opportunity with the corresponding <id>, with no sale made.
  - help					Shows this help screen.
  - exit					Exits the CRM console.
-
 
