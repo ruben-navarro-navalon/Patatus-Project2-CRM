@@ -28,6 +28,7 @@ public class Menu {
             if (userInput.isEmpty()) continue;
 
             Command command = checkCommand(userInput);
+
             if (command.equals(Command.UNKNOWN)) continue;
 
             String[] inputArgs = getArgsFromInput(userInput);
@@ -37,7 +38,7 @@ public class Menu {
                     break;
 
                 case LOOKUP_LEAD:
-                    int idToLookup = Integer.parseInt(inputArgs[2]);
+                    int idToLookup = command.getArg(inputArgs);
                     Lead lead = lookupLead(idToLookup);
                     System.out.println(lead);
                     break;
@@ -47,18 +48,18 @@ public class Menu {
                     break;
 
                 case CONVERT_LEAD:
-                    int idToConvert = Integer.parseInt(inputArgs[1]);
+                    int idToConvert = command.getArg(inputArgs);
                     Account account = convertLead(idToConvert);
                     // todo accountMap.put(account.getId(), account);
                     break;
 
                 case CLOSE_WON_OPP:
-                    int idToCloseWon = Integer.parseInt(inputArgs[1]);
+                    int idToCloseWon = command.getArg(inputArgs);
                     closeWonOpp(idToCloseWon);
                     break;
 
                 case CLOSE_LOST_OPP:
-                    int idToCloseLost = Integer.parseInt(inputArgs[1]);
+                    int idToCloseLost = command.getArg(inputArgs);
                     closeLostOpp(idToCloseLost);
                     break;
 
@@ -88,79 +89,82 @@ public class Menu {
 
     public Command checkCommand(String userInput) {
 
-        String[] inputArgs = getArgsFromInput(userInput);
+        return Command.getCommand(userInput);
 
-        try {
-            // at least two args are present
-            if (inputArgs.length < 2) {
-                // except the special commands help, exit
-                if (inputArgs[0].equals(Keyword.HELP))
-                    return Command.HELP;
-                if (inputArgs[0].equals(Keyword.EXIT))
-                    return Command.EXIT;
-                throw new IllegalArgumentException();
-            }
-
-            // first we check the second input string
-            switch (inputArgs[1]) {
-                case Keyword.LEAD:
-                    switch (inputArgs[0]) {
-                        case Keyword.NEW:
-                            if (inputArgs.length <= 2)
-                                return Command.NEW_LEAD;
-                            throw new IllegalArgumentException();
-                        case Keyword.LOOKUP:
-                            if (inputArgs.length <= 3) {
-                                Integer.parseInt(inputArgs[2]);
-                                return Command.LOOKUP_LEAD;
-                            }
-                            throw new IllegalArgumentException();
-                        default:
-                            throw new IllegalArgumentException();
-                    }
-
-                case Keyword.LEADS:
-                    if (inputArgs[0].equals(Keyword.SHOW) && inputArgs.length <= 2)
-                        return Command.SHOW_LEADS;
-                    throw new IllegalArgumentException();
-
-                default:
-                    break;
-            }
-
-            // then we check the first input string
-            switch (inputArgs[0]) {
-                case Keyword.CONVERT:
-                    if (inputArgs.length <= 2) {
-                        Integer.parseInt(inputArgs[1]);
-                        return Command.CONVERT_LEAD;
-                    }
-                    throw new IllegalArgumentException();
-
-                case Keyword.CLOSE_WON:
-                    if (inputArgs.length <= 2){
-                        Integer.parseInt(inputArgs[1]);
-                        return Command.CLOSE_WON_OPP;
-                    }
-                    throw new IllegalArgumentException();
-
-                case Keyword.CLOSE_LOST:
-                    if (inputArgs.length <= 2) {
-                        Integer.parseInt(inputArgs[1]);
-                        return Command.CLOSE_LOST_OPP;
-                    }
-                    throw new IllegalArgumentException();
-
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-        catch (Exception e)
-        {
-            //System.err.println(userInput + ": unknown command");
-            System.out.println(userInput + ": unknown command");
-        }
-        return Command.UNKNOWN;
+//        String[] inputArgs = getArgsFromInput(userInput);
+//
+//        try {
+//            // at least two args are present
+//            if (inputArgs.length < 2) {
+//                // except the special commands help, exit
+//                if (inputArgs[0].equals(Keyword.HELP))
+//                    return Command.HELP;
+//                if (inputArgs[0].equals(Keyword.EXIT))
+//                    return Command.EXIT;
+//
+//                throw new IllegalArgumentException();
+//            }
+//
+//            // first we check the second input string
+//            switch (inputArgs[1]) {
+//                case Keyword.LEAD:
+//                    switch (inputArgs[0]) {
+//                        case Keyword.NEW:
+//                            if (inputArgs.length <= 2)
+//                                return Command.NEW_LEAD;
+//                            throw new IllegalArgumentException();
+//                        case Keyword.LOOKUP:
+//                            if (inputArgs.length <= 3) {
+//                                Integer.parseInt(inputArgs[2]);
+//                                return Command.LOOKUP_LEAD;
+//                            }
+//                            throw new IllegalArgumentException();
+//                        default:
+//                            throw new IllegalArgumentException();
+//                    }
+//
+//                case Keyword.LEADS:
+//                    if (inputArgs[0].equals(Keyword.SHOW) && inputArgs.length <= 2)
+//                        return Command.SHOW_LEADS;
+//                    throw new IllegalArgumentException();
+//
+//                default:
+//                    break;
+//            }
+//
+//            // then we check the first input string
+//            switch (inputArgs[0]) {
+//                case Keyword.CONVERT:
+//                    if (inputArgs.length <= 2) {
+//                        Integer.parseInt(inputArgs[1]);
+//                        return Command.CONVERT_LEAD;
+//                    }
+//                    throw new IllegalArgumentException();
+//
+//                case Keyword.CLOSE_WON:
+//                    if (inputArgs.length <= 2){
+//                        Integer.parseInt(inputArgs[1]);
+//                        return Command.CLOSE_WON_OPP;
+//                    }
+//                    throw new IllegalArgumentException();
+//
+//                case Keyword.CLOSE_LOST:
+//                    if (inputArgs.length <= 2) {
+//                        Integer.parseInt(inputArgs[1]);
+//                        return Command.CLOSE_LOST_OPP;
+//                    }
+//                    throw new IllegalArgumentException();
+//
+//                default:
+//                    throw new IllegalArgumentException();
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            //System.err.println(userInput + ": unknown command");
+//            System.out.println(userInput + ": unknown command");
+//        }
+//        return Command.UNKNOWN;
     }
 
     private Lead newLead() {
