@@ -7,7 +7,10 @@ import com.ironhack.main.menu.command.Command;
 import com.ironhack.main.menu.command.Keyword;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Scanner;
+
+import static com.ironhack.classes.Opportunity.getOpportunity;
 
 public class Menu {
 
@@ -15,7 +18,7 @@ public class Menu {
     private static final String HELP_FILEPATH = "src/main/resources/.help";
 
 
-    private LeadList leadList;
+    private LeadList leadList = new LeadList(new HashMap<>());
     // todo private Map<Integer, Account> accountMap;
 
     public void show(){
@@ -33,7 +36,7 @@ public class Menu {
             String[] inputArgs = getArgsFromInput(userInput);
             switch(command) {
                 case NEW_LEAD:
-                    newLead();
+                    leadList.addLeadInLeadList(newLead());
                     break;
 
                 case LOOKUP_LEAD:
@@ -114,8 +117,9 @@ public class Menu {
         System.out.println(companyName);
         System.out.println("--------------");
 
+
         // todo add new created Lead to LeadList
-        return null;
+        return new Lead(name, phoneNumber, email, companyName);
     }
 
     private void showLeads() {
@@ -124,8 +128,7 @@ public class Menu {
     }
 
     private Lead lookupLead(int id) {
-        // todo return leadList.get(id);
-        return null;
+       return leadList.getLeadsMap().get(id);
     }
 
     private Account convertLead(int id) {
@@ -143,8 +146,7 @@ public class Menu {
     }
 
     private Contact createContact(Lead lead) {
-        // todo return new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
-        return null;
+        return new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
     }
 
     private Opportunity createOpportunity(Lead lead) {
@@ -187,11 +189,11 @@ public class Menu {
 
 
     private void closeWonOpp(int id) {
-        // todo getOpportunity(id).closeWon()
+        getOpportunity(id).closeWon();
     }
 
     private void closeLostOpp(int id) {
-        // todo getOpportunity(id).closeLost()
+        getOpportunity(id).closeLost();
     }
 
 }
