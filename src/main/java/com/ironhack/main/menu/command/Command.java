@@ -1,7 +1,7 @@
 package com.ironhack.main.menu.command;
 
 public enum Command {
-    UNKNOWN("", 0),
+    UNKNOWN("UNKNOWN", 0),
     NEW_LEAD(Keyword.NEW + " " + Keyword.LEAD, 0),
     SHOW_LEADS(Keyword.SHOW + " " + Keyword.LEADS, 0),
     LOOKUP_LEAD(Keyword.LOOKUP + " " + Keyword.LEAD, 1),
@@ -66,4 +66,7 @@ public enum Command {
         }
         return UNKNOWN;
     }
+
+    private static final Command values[] = values();
+    public static Command get(int ordinal) { return values[ordinal]; }
 }

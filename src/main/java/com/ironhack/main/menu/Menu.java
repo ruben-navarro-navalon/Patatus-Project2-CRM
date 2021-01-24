@@ -222,12 +222,14 @@ public class Menu {
 
     private Opportunity createOpportunity(Lead lead) {
         Scanner scanner = new Scanner(System.in);
-        int productOption = 0;
+
+        String productOption = "";
         do {
-            System.out.print("Product ([1]HYBRID [2]FLATBED [3]BOX): ");
-            productOption = Integer.parseInt(scanner.nextLine().trim());
-        } while (productOption < 1 || productOption > Product.values().length);
-        Product product = Product.values()[productOption-1];
+            System.out.print("Product (" + Product.showOptions() + "): ");
+            productOption = scanner.nextLine().trim();
+        } while (!Product.isValid(productOption));
+        Product product = Product.get(productOption);
+
         System.out.print("Quantity: ");
         int quantity = Integer.parseInt(scanner.nextLine().trim());
 
@@ -237,12 +239,14 @@ public class Menu {
 
     private Account createAccount(Contact contact, Opportunity opportunity) {
         Scanner scanner = new Scanner(System.in);
-        int industryOption = 0;
+
+        String industryOption = "";
         do {
-            System.out.print("Industry ([1]PRODUCE [2]ECOMMERCE [3]MANUFACTURING [4]MEDICAL [5]OTHER): ");
-            industryOption = Integer.parseInt(scanner.nextLine().trim());
-        } while (industryOption < 1 || industryOption > Industry.values().length);
-        Industry industry = Industry.values()[industryOption-1];
+            System.out.print("Industry (" + Industry.showOptions() + "): ");
+            industryOption = scanner.nextLine().trim();
+        } while (!Industry.isValid(industryOption));
+        Industry industry = Industry.get(industryOption);
+
         System.out.print("Number of employees: ");
         int employeeCount = Integer.parseInt(scanner.nextLine().trim());
         System.out.print("City: ");
