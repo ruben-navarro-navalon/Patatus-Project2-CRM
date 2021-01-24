@@ -1,9 +1,10 @@
 package com.ironhack.main;
 
+import com.ironhack.main.menu.Command;
+import com.ironhack.main.menu.Menu;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.nio.charset.Charset;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;

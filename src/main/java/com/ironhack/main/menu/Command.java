@@ -1,4 +1,4 @@
-package com.ironhack.main;
+package com.ironhack.main.menu;
 
 public enum Command {
     UNKNOWN,

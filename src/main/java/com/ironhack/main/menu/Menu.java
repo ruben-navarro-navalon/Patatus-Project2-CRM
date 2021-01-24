@@ -1,10 +1,9 @@
-package com.ironhack.main;
+package com.ironhack.main.menu;
 
 import com.ironhack.classes.*;
 import com.ironhack.enums.Industry;
 import com.ironhack.enums.Product;
 
-import java.util.Map;
 import java.util.Scanner;
 
 public class Menu {
