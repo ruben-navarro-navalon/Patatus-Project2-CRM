@@ -1,4 +1,4 @@
-package com.ironhack.main.menu;
+package com.ironhack.main.menu.command;
 
 public enum Command {
     UNKNOWN,
@@ -8,5 +8,6 @@ public enum Command {
     CONVERT_LEAD,
     CLOSE_LOST_OPP,
     CLOSE_WON_OPP,
+    HELP,
     EXIT
 }
