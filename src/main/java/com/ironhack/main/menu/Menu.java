@@ -9,6 +9,8 @@ import com.ironhack.main.menu.command.Keyword;
 import java.io.File;
 import java.util.Scanner;
 
+import static com.ironhack.classes.Opportunity.getOpportunity;
+
 public class Menu {
 
     private static final String USER_PROMPT = "CRM:> ";
@@ -187,11 +189,11 @@ public class Menu {
 
 
     private void closeWonOpp(int id) {
-        // todo getOpportunity(id).closeWon()
+        getOpportunity(id).closeWon();
     }
 
     private void closeLostOpp(int id) {
-        // todo getOpportunity(id).closeLost()
+        getOpportunity(id).closeLost();
     }
 
 }
