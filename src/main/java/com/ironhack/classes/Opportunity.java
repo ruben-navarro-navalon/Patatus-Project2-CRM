@@ -42,7 +42,7 @@ public class Opportunity {
             return getOpportunityList().get(id);
         } else {
             System.out.println("The id " + id + " is not in our Opportunities database.\n");
-            return null;
+            throw new ArrayIndexOutOfBoundsException();
         }
     }
 
