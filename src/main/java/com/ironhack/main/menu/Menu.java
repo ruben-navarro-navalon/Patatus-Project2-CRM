@@ -4,7 +4,6 @@ import com.ironhack.classes.*;
 import com.ironhack.enums.Industry;
 import com.ironhack.enums.Product;
 import com.ironhack.main.menu.command.Command;
-import com.ironhack.main.menu.command.Keyword;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,13 +38,19 @@ public class Menu {
             String[] inputArgs = getArgsFromInput(userInput);
             switch(command) {
                 case NEW_LEAD:
-                    leadList.addLeadInLeadList(newLead());
+                    Lead newLead = newLead();
+                    leadList.addLeadInLeadList(newLead);
+                    System.out.println(">> Added new Lead: " + newLead);
                     break;
 
                 case LOOKUP_LEAD:
                     int idToLookup = command.getArg(inputArgs);
-                    Lead lead = lookupLead(idToLookup);
-                    System.out.println(lead);
+                    try {
+                        Lead leadLookup = lookupLead(idToLookup);
+                        System.out.println(leadLookup);
+                    } catch (RuntimeException e) {
+                        printLeadNotFound(idToLookup);
+                    }
                     break;
 
                 case SHOW_LEADS:
@@ -54,9 +59,19 @@ public class Menu {
 
                 case CONVERT_LEAD:
                     int idToConvert = command.getArg(inputArgs);
-                    Account account = convertLead(idToConvert);
-                    //accountMap.put(account.getContactList().get(0).getCompanyName(), account);
-                    accountMap.put(account.getId(), account);
+                    try {
+                        Lead leadConvert = lookupLead(idToConvert);
+                        Account account = convertLead(leadConvert);
+
+                        accountMap.put(account.getId(), account);
+                        //leadList.remove(idToConvert);
+
+                        System.out.println(">> Added new Account: " + account);
+                        System.out.println("<< Removed Lead: " + leadConvert);
+
+                    } catch (RuntimeException e) {
+                        printLeadNotFound(idToConvert);
+                    }
                     break;
 
                 case CLOSE_WON_OPP:
@@ -70,20 +85,11 @@ public class Menu {
                     break;
 
                 case HELP:
-                    try {
-                        File file = new File(HELP_FILEPATH);
-                        Scanner fileScanner = new Scanner(file);
-                        while(fileScanner.hasNextLine()) {
-                            System.out.println(MenuColors.setColorYellow(fileScanner.nextLine()));
-                        }
-                    }
-                    catch (Exception e) {
-                        System.out.println(MenuColors.setColorRed("Error: Help file could not be found."));
-                    }
+                    printHelp();
                     break;
 
                 case UNKNOWN:
-                    System.out.println(MenuColors.setColorRed("'" + userInput + "' is not a valid command."));
+                    printUnknownCommand(userInput);
                     break;
 
                 case EXIT:
@@ -104,7 +110,7 @@ public class Menu {
     private Lead newLead() {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("New Lead\n--------------");
+//        System.out.println("New Lead\n--------------");
         System.out.print("Name: ");
         String name = scanner.nextLine().trim();
         System.out.print("Phone number: ");
@@ -114,14 +120,14 @@ public class Menu {
         System.out.print("Company name: ");
         String companyName = scanner.nextLine().trim();
 
-        System.out.println("New lead created:");
-        System.out.println(name);
-        System.out.println(phoneNumber);
-        System.out.println(email);
-        System.out.println(companyName);
-        System.out.println("--------------");
-
-        return new Lead(name, phoneNumber, email, companyName);
+//        System.out.println("New lead created:");
+//        System.out.println(name);
+//        System.out.println(phoneNumber);
+//        System.out.println(email);
+//        System.out.println(companyName);
+//        System.out.println("--------------");
+        Lead newLead =  new Lead(name, phoneNumber, email, companyName);
+        return newLead;
     }
 
     private void showLeads() {
@@ -129,15 +135,13 @@ public class Menu {
     }
 
     private Lead lookupLead(int id) {
-       return leadList.getLeadsMap().get(id);
+        if (leadList.lookUpLeadId(id) == null)
+            throw new RuntimeException();
+
+        return leadList.getLeadsMap().get(id);
     }
 
-    private Account convertLead(int id) {
-        Lead lead = lookupLead(id);
-
-        // todo lanzar exception desde lookupLead?
-//        if (lead == null)
-//            throw new RuntimeException("The lead with id=" + id + " does not exist.");
+    private Account convertLead(Lead lead) {
 
         Contact decisionMaker = createContact(lead);
         Opportunity opportunity = createOpportunity(decisionMaker);
@@ -190,13 +194,35 @@ public class Menu {
         return account;
     }
 
-
     private void closeWonOpp(int id) {
         getOpportunity(id).closeWon();
     }
 
     private void closeLostOpp(int id) {
         getOpportunity(id).closeLost();
+    }
+
+    private void printHelp() {
+        try {
+            File file = new File(HELP_FILEPATH);
+            Scanner fileScanner = new Scanner(file);
+            while (fileScanner.hasNextLine()) {
+                //System.out.println(MenuColors.setColorYellow(fileScanner.nextLine()));
+                System.out.println(fileScanner.nextLine());
+            }
+        } catch (Exception e) {
+            //System.out.println(MenuColors.setColorRed("Error: Help file could not be found."));
+            System.out.println("Error: Help file could not be found.");
+        }
+    }
+
+    private void printUnknownCommand(String userInput) {
+        //System.out.println(MenuColors.setColorRed("'" + userInput + "' is not a valid command."));
+        System.out.println("'" + userInput + "' is not a valid command.");
+    }
+
+    private void printLeadNotFound(int id) {
+        System.out.println("Lead with id=" + id + " not found.");
     }
 
 }
