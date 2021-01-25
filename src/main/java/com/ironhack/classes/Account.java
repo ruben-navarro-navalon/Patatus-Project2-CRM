@@ -4,6 +4,7 @@ import com.ironhack.enums.Industry;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Account {
     // Properties
@@ -41,15 +42,21 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", industry=" + industry +
-                ", employeeCount=" + employeeCount +
-                ", city='" + city + '\'' +
-                ", country='" + country + '\'' +
-                ", contactList=" + contactList +
-                ", opportunityList=" + opportunityList +
-                '}';
+
+
+        return "\n   ID-" + id +
+                " | industry: " + industry +
+                " | employeeCount: " + employeeCount +
+                " | city: " + city +
+                " | country: " + country +
+                "\n   List of Contacts:" +
+                "\n      " + contactList.stream()
+                .map(Contact::toString)
+                .collect(Collectors.joining("\n")) +
+                "\n   List of Opportunities:" +
+                "\n      " + opportunityList.stream()
+                .map(Opportunity::toString)
+                .collect(Collectors.joining("\n"));
     }
 
     // Gettes & Setters:

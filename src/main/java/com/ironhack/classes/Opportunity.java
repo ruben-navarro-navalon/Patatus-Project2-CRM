@@ -29,11 +29,13 @@ public class Opportunity {
     //Method to call from menu
     public void closeWon(){
         this.setStatus(Status.CLOSED_WON);
+        System.out.println("The opportunity " + this.getId() + " is won. Closing it.");
     }
 
     //Method to call from menu
     public void closeLost(){
         this.setStatus(Status.CLOSED_LOST);
+        System.out.println("The opportunity " + this.getId() + " is lost. Closing it.");
     }
 
     //Method to call from menu
@@ -48,13 +50,11 @@ public class Opportunity {
 
     @Override
     public String toString() {
-        return "Opportunity{" +
-                "id=" + id +
-                ", quantity=" + quantity +
-                ", decisionMaker=" + decisionMaker +
-                ", status=" + status +
-                ", product=" + product +
-                '}';
+        return "ID-" + id +
+                " | quantity: " + quantity +
+                " | decisionMaker: ID-" + decisionMaker.getId() + " " + decisionMaker.getName() +
+                " | status: " + status +
+                " | product: " + product;
     }
 
     //Getters and setters

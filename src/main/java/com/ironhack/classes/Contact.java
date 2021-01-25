@@ -20,6 +20,15 @@ public class Contact {
         setCompanyName(companyName);
     }
 
+    @Override
+    public String toString() {
+        return "ID-" + id +
+                " | name: " + name +
+                " | phoneNumber: " + phoneNumber +
+                " | email: " + email +
+                " | companyName: " + companyName;
+    }
+
     // Getters & Setters:
     public int getId() {
         return id;

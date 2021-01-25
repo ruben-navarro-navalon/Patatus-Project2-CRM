@@ -64,7 +64,7 @@ public class Menu {
                         Account account = convertLead(leadConvert);
 
                         accountMap.put(account.getId(), account);
-                        //leadList.remove(idToConvert);
+                        leadList.remove(idToConvert);
 
                         System.out.println(">> Added new Account: " + account);
                         System.out.println("<< Removed Lead: " + leadConvert);
@@ -186,6 +186,18 @@ public class Menu {
         String city = scanner.nextLine().trim();
         System.out.print("Country: ");
         String country = scanner.nextLine().trim();
+
+        // todo COBY SÁLVANOS!
+        Account.getAccountList().stream().filter(account -> account.getCoBLABLA().equals(contact.getCompanyName())).findAny().orElse(new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>()));
+//        for (String companyName : Account.getAccountList()){
+//            if companyName.equals(Account.getAccountList().){
+//                accountList.get(nombreempresa).addToContactList(contact);
+//            }
+//        } else {
+//            Account account = new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>());
+//            account.addToContactList(contact);
+//            account.addToOpportunityList(opportunity);
+//        }
 
         Account account = new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>());
         account.addToContactList(contact);

@@ -3,6 +3,7 @@ package com.ironhack.classes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class LeadList {
     // Properties
@@ -30,10 +31,10 @@ public class LeadList {
     }
 
     /** remove, duda */
-//    public void remove(int id) {
+    public void remove(int id) {
 //        leadsMap.get(id) = null;
-//        leadsMap.remove(id);
-//    }
+        leadsMap.remove(id);
+   }
 
     // Add lead into LeadList map
     public void addLeadInLeadList(Lead lead) {
@@ -51,8 +52,8 @@ public class LeadList {
 
     @Override
     public String toString() {
-        return "LeadList{" +
-                "leadsMap=" + leadsMap +
-                '}';
+        return leadsMap.values().stream()
+                .map(Lead::toString)
+                .collect(Collectors.joining("\n"));
     }
 }
