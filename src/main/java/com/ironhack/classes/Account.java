@@ -1,5 +1,4 @@
 package com.ironhack.classes;
-
 import com.ironhack.enums.Industry;
 
 import java.util.List;

@@ -30,9 +30,8 @@ public class LeadList {
         return leadsMap.get(id);
     }
 
-    /** remove, duda */
+    // To remove a Lead when converted to Opportunity
     public void remove(int id) {
-//        leadsMap.get(id) = null;
         leadsMap.remove(id);
    }
 

@@ -20,19 +20,6 @@ public class Lead {
         setCompanyName(companyName);
     }
 
-     // Methods
-//    public Opportunity convertToOpportunity(Lead lead) {
-//        Contact contact = new Contact(getName(), getPhoneNumber(),getEmail(),getCompanyName());
-//        // meto aqui el scanner para la info, o creamos una funcion para recoger la info y la invoco aqui
-//        Opportunity opportunity = new Opportunity(lead, );
-//        return opportunity;
-//    }
-
-    /** Remove. duda */
-//    public void remove() throws Throwable {
-//        this = null;
-//    }
-
     //Getters & Setters
     public int getId() {
         return id;
