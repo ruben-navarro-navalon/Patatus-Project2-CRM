@@ -16,8 +16,8 @@ class OpportunityTest {
     @BeforeAll
     static void beforeAll() {
         opportunity = new Opportunity(new Contact("Juan", "+34916826184","juan@asinc.com", "As INC."), Product.BOX, 5);
-        opportunity2 = new Opportunity(new Contact("Alexa", "+34916826184","juan@asinc.com", "As INC."), Product.BOX, 5);
-        opportunity3 = new Opportunity(new Contact("Siri", "+34916826184","juan@asinc.com", "As INC."), Product.BOX, 5);
+        opportunity2 = new Opportunity(new Contact("Alexa", "+34916826184","alexa@asinc.com", "As INC."), Product.BOX, 5);
+        opportunity3 = new Opportunity(new Contact("Siri", "+34916826184","siri@asinc.com", "As INC."), Product.BOX, 5);
     }
 
     @Test
@@ -39,7 +39,7 @@ class OpportunityTest {
 
     @Test
     void getOpportunity_opportunityList_opportunityWithIncorrectId() {
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {getOpportunity(9);});
+        assertThrows(IndexOutOfBoundsException.class, () -> {getOpportunity(9);});
     }
 
     @Test
