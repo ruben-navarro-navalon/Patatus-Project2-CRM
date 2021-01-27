@@ -188,7 +188,19 @@ public class Menu {
         String country = scanner.nextLine().trim();
 
         // todo COBY SÁLVANOS!
-        Account.getAccountList().stream().filter(account -> account.getCoBLABLA().equals(contact.getCompanyName())).findAny().orElse(new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>()));
+        // Hay que sustituir estas tres líneas de abajo:
+
+        Account account = new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>());
+        account.addToContactList(contact);
+        account.addToOpportunityList(opportunity);
+
+        // Por esta sin acabar:
+
+//        Account.getAccountList().stream().filter(account -> account.getCoBLABLA().equals(contact.getCompanyName())).findAny().orElse(new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>()));
+
+
+        // Que viene a significar más o menos esto:
+
 //        for (String companyName : Account.getAccountList()){
 //            if companyName.equals(Account.getAccountList().){
 //                accountList.get(nombreempresa).addToContactList(contact);
@@ -199,9 +211,6 @@ public class Menu {
 //            account.addToOpportunityList(opportunity);
 //        }
 
-        Account account = new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>());
-        account.addToContactList(contact);
-        account.addToOpportunityList(opportunity);
 
         return account;
     }
