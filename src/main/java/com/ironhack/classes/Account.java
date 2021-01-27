@@ -2,7 +2,6 @@ package com.ironhack.classes;
 import com.ironhack.enums.Industry;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Account {
@@ -14,8 +13,6 @@ public class Account {
     private String country;
     private List<Contact> contactList;
     private List<Opportunity> opportunityList;
-
-    private final static List<Account> accountList = new ArrayList<>();
 
     // This is for the incremented self-generated id:
     private static int idGenerator = 0;
@@ -29,7 +26,6 @@ public class Account {
         setCountry(country);
         setContactList(contactList);
         setOpportunityList(opportunityList);
-        accountList.add(this);
     }
 
     public void addToContactList(Contact contact){
@@ -119,7 +115,4 @@ public class Account {
         this.opportunityList = opportunityList;
     }
 
-    public static List<Account> getAccountList() {
-        return accountList;
-    }
 }

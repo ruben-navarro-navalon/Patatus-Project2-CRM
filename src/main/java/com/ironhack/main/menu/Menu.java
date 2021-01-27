@@ -6,12 +6,9 @@ import com.ironhack.enums.Product;
 import com.ironhack.main.menu.command.Command;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import static com.ironhack.classes.Opportunity.getOpportunity;
 
 public class Menu {
 
@@ -19,9 +16,9 @@ public class Menu {
     private static final String HELP_FILEPATH = "src/main/resources/.help";
 
 
-    private LeadList leadList = new LeadList(new HashMap<>());
-    private Map<Integer, Account> accountMap = new HashMap<>();
-    // private Map<String, Account> accountMap = new HashMap<>();
+    private final Map<Integer, Lead> leadMap = new HashMap<>();
+    private final Map<Integer, Account> accountMap = new HashMap<>();
+    private final Map<Integer, Opportunity> opportunityMap = new HashMap<>();
 
     public void show(){
 
@@ -33,13 +30,12 @@ public class Menu {
             if (userInput.isEmpty()) continue;
 
             Command command = checkCommand(userInput);
-            //if (command.equals(Command.UNKNOWN)) continue;
 
             String[] inputArgs = getArgsFromInput(userInput);
             switch(command) {
                 case NEW_LEAD:
                     Lead newLead = newLead();
-                    leadList.addLeadInLeadList(newLead);
+                    leadMap.put(newLead.getId(), newLead);
                     System.out.println(">> Added new Lead: " + newLead);
                     break;
 
@@ -64,7 +60,7 @@ public class Menu {
                         Account account = convertLead(leadConvert);
 
                         accountMap.put(account.getId(), account);
-                        leadList.remove(idToConvert);
+                        leadMap.remove(idToConvert);
 
                         System.out.println(">> Added new Account: " + account);
                         System.out.println("<< Removed Lead: " + leadConvert);
@@ -110,7 +106,6 @@ public class Menu {
     private Lead newLead() {
 
         Scanner scanner = new Scanner(System.in);
-//        System.out.println("New Lead\n--------------");
         System.out.print("Name: ");
         String name = scanner.nextLine().trim();
         System.out.print("Phone number: ");
@@ -120,34 +115,27 @@ public class Menu {
         System.out.print("Company name: ");
         String companyName = scanner.nextLine().trim();
 
-//        System.out.println("New lead created:");
-//        System.out.println(name);
-//        System.out.println(phoneNumber);
-//        System.out.println(email);
-//        System.out.println(companyName);
-//        System.out.println("--------------");
-        Lead newLead =  new Lead(name, phoneNumber, email, companyName);
-        return newLead;
+        return new Lead(name, phoneNumber, email, companyName);
     }
 
     private void showLeads() {
-        System.out.println(leadList);
+        System.out.println(mapValuesToString(leadMap));
     }
 
     private Lead lookupLead(int id) {
-        if (leadList.lookUpLeadId(id) == null)
+        Lead lead = leadMap.get(id);
+        if (lead == null)
             throw new RuntimeException();
 
-        return leadList.getLeadsMap().get(id);
+        return lead;
     }
 
     private Account convertLead(Lead lead) {
 
         Contact decisionMaker = createContact(lead);
         Opportunity opportunity = createOpportunity(decisionMaker);
-        Account account = createAccount(decisionMaker, opportunity);
 
-        return account;
+        return createAccount(decisionMaker, opportunity);
     }
 
     private Contact createContact(Lead lead) {
@@ -157,7 +145,7 @@ public class Menu {
     private Opportunity createOpportunity(Contact decisionMaker) {
         Scanner scanner = new Scanner(System.in);
 
-        String productOption = "";
+        String productOption;
         do {
             System.out.print("Product (" + Product.showOptions() + "): ");
             productOption = scanner.nextLine().trim();
@@ -167,13 +155,16 @@ public class Menu {
         System.out.print("Quantity: ");
         int quantity = Integer.parseInt(scanner.nextLine().trim());
 
-        return new Opportunity(decisionMaker, product, quantity);
+        Opportunity opportunity = new Opportunity(decisionMaker, product, quantity);
+        opportunityMap.put(opportunity.getId(), opportunity);
+
+        return opportunity;
     }
 
     private Account createAccount(Contact contact, Opportunity opportunity) {
         Scanner scanner = new Scanner(System.in);
 
-        String industryOption = "";
+        String industryOption;
         do {
             System.out.print("Industry (" + Industry.showOptions() + "): ");
             industryOption = scanner.nextLine().trim();
@@ -187,41 +178,29 @@ public class Menu {
         System.out.print("Country: ");
         String country = scanner.nextLine().trim();
 
-        // todo COBY SÁLVANOS!
-        // Hay que sustituir estas tres líneas de abajo:
-
-        Account account = new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>());
+        Account account = new Account(industry, employeeCount, city, country, new ArrayList<>(), new ArrayList<>());
         account.addToContactList(contact);
         account.addToOpportunityList(opportunity);
-
-        // Por esta sin acabar:
-
-//        Account.getAccountList().stream().filter(account -> account.getCoBLABLA().equals(contact.getCompanyName())).findAny().orElse(new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>()));
-
-
-        // Que viene a significar más o menos esto:
-
-//        for (String companyName : Account.getAccountList()){
-//            if companyName.equals(Account.getAccountList().){
-//                accountList.get(nombreempresa).addToContactList(contact);
-//            }
-//        } else {
-//            Account account = new Account(industry, employeeCount, city, country, new ArrayList<Contact>(), new ArrayList<Opportunity>());
-//            account.addToContactList(contact);
-//            account.addToOpportunityList(opportunity);
-//        }
-
 
         return account;
     }
 
     private void closeWonOpp(int id) {
-        getOpportunity(id).closeWon();
+        try {
+            opportunityMap.get(id).closeWon();
+        } catch (NullPointerException e) {
+            printOpportunityNotFound(id);
+        }
+    }
+    private void closeLostOpp(int id) {
+        try {
+            opportunityMap.get(id).closeLost();
+        } catch (NullPointerException e) {
+            printOpportunityNotFound(id);
+        }
     }
 
-    private void closeLostOpp(int id) {
-        getOpportunity(id).closeLost();
-    }
+
 
     private void printHelp() {
         try {
@@ -244,6 +223,16 @@ public class Menu {
 
     private void printLeadNotFound(int id) {
         System.out.println("Lead with id=" + id + " not found.");
+    }
+
+    private void printOpportunityNotFound(int id) {
+        System.out.println("Opportunity with id=" + id + " not found.");
+    }
+
+    public <T, T2> String mapValuesToString(Map<T2, T> map) {
+        return map.values().stream()
+                .map(T::toString)
+                .collect(Collectors.joining("\n"));
     }
 
 }

@@ -11,7 +11,6 @@ public class Opportunity {
     private Contact decisionMaker;
     private Status status;
     private Product product;
-    private final static List<Opportunity> opportunityList = new ArrayList<>();
 
     //Constructor
     public Opportunity(Contact decisionMaker, Product product, int quantity) {
@@ -20,7 +19,6 @@ public class Opportunity {
         status = Status.OPEN;
         setProduct(product);
         setQuantity(quantity);
-        opportunityList.add(this);
     }
 
     // To generate autoincrementID:
@@ -36,16 +34,6 @@ public class Opportunity {
     public void closeLost(){
         this.setStatus(Status.CLOSED_LOST);
         System.out.println("The opportunity " + this.getId() + " is lost. Closing it.");
-    }
-
-    //Method to call from menu
-    public static Opportunity getOpportunity(int id){
-        if (getOpportunityList().get(id).getId() == id){
-            return getOpportunityList().get(id);
-        } else {
-            System.out.println("The id " + id + " is not in our Opportunities database.\n");
-            throw new IndexOutOfBoundsException();
-        }
     }
 
     @Override
@@ -92,10 +80,6 @@ public class Opportunity {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public static List<Opportunity> getOpportunityList() {
-        return opportunityList;
     }
 
     public Product getProduct() {

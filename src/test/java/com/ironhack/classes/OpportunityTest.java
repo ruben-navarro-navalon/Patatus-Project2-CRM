@@ -5,7 +5,6 @@ import com.ironhack.enums.Status;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static com.ironhack.classes.Opportunity.getOpportunity;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OpportunityTest {
@@ -30,16 +29,6 @@ class OpportunityTest {
     void closeLost_opportunityObject_statusChangedToLost() {
         opportunity.closeLost();
         assertEquals(Status.CLOSED_LOST, opportunity.getStatus());
-    }
-
-    @Test
-    void getOpportunity_opportunityList_opportunityWithCorrectId() {
-        assertEquals(opportunity3, getOpportunity(2));
-    }
-
-    @Test
-    void getOpportunity_opportunityList_opportunityWithIncorrectId() {
-        assertThrows(IndexOutOfBoundsException.class, () -> {getOpportunity(9);});
     }
 
     @Test
