@@ -178,5 +178,18 @@ class MenuTest {
         assertEquals(Command.EXIT, menu.checkCommand(input));
     }
 
+    @Test
+    void checkCommand_showAccounts_SHOW_ACCOUNTS() {
+        String input = "show accounts";
+        assertEquals(Command.SHOW_ACCOUNTS, menu.checkCommand(input));
+    }
+
+
+    @Test
+    void checkCommand_showAccount_UNKNOWN() {
+        String input = "show account";
+        assertEquals(Command.UNKNOWN, menu.checkCommand(input));
+    }
+
 
 }

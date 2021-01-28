@@ -4,6 +4,7 @@ public enum Command {
     UNKNOWN("UNKNOWN", 0),
     NEW_LEAD(Keyword.NEW + " " + Keyword.LEAD, 0),
     SHOW_LEADS(Keyword.SHOW + " " + Keyword.LEADS, 0),
+    SHOW_ACCOUNTS(Keyword.SHOW + " " + Keyword.ACCOUNTS, 0),
     LOOKUP_LEAD(Keyword.LOOKUP + " " + Keyword.LEAD, 1),
     CONVERT_LEAD(Keyword.CONVERT, 1),
     CLOSE_LOST_OPP(Keyword.CLOSE_LOST, 1),

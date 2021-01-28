@@ -5,6 +5,7 @@ public class Keyword {
     public static final String LEAD = "LEAD";
     public static final String SHOW = "SHOW";
     public static final String LEADS = "LEADS";
+    public static final String ACCOUNTS = "ACCOUNTS";
     public static final String LOOKUP = "LOOKUP";
     public static final String CONVERT = "CONVERT";
     public static final String CLOSE_WON = "CLOSE-WON";

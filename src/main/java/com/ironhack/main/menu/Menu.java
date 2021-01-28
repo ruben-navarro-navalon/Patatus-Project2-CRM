@@ -80,6 +80,10 @@ public class Menu {
                     closeLostOpp(idToCloseLost);
                     break;
 
+                case SHOW_ACCOUNTS:
+                    showAccounts();
+                    break;
+
                 case HELP:
                     printHelp();
                     break;
@@ -237,6 +241,9 @@ public class Menu {
         }
     }
 
+    private void showAccounts() {
+        System.out.println(mapValuesToString(accountMap));
+    }
 
 
     private void printHelp() {
