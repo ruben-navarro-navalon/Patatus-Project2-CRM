@@ -34,9 +34,13 @@ public class Menu {
             String[] inputArgs = getArgsFromInput(userInput);
             switch(command) {
                 case NEW_LEAD:
-                    Lead newLead = newLead();
-                    leadMap.put(newLead.getId(), newLead);
-                    System.out.println(">> Added new Lead: " + newLead);
+                    try {
+                        Lead newLead = newLead();
+                        leadMap.put(newLead.getId(), newLead);
+                        System.out.println(">> Added new Lead: " + newLead);
+                    } catch (Exception e){
+                        System.out.println("Cancelling Lead creation...");
+                    }
                     break;
 
                 case LOOKUP_LEAD:
@@ -118,8 +122,11 @@ public class Menu {
         String email =  readFormattedString("VALID email address: ", "[\\w-.]+@(?:[\\w-]+\\.)+[\\w-]+");
         System.out.print("Company name: ");
         String companyName = scanner.nextLine().trim();
-
-        return new Lead(name, phoneNumber, email, companyName);
+        System.out.print("Are you sure all the data is ok? (Y || n): ");
+        if (scanner.nextLine().equalsIgnoreCase("Y")){
+            return new Lead(name, phoneNumber, email, companyName);
+        }
+        return null;
     }
 
     private String readFormattedString(String onBadInput, String regex) {
@@ -133,7 +140,7 @@ public class Menu {
             if (c%3 == 0) {
                 onBadInput = "Porfa, deja de vacilarme TT.TT\n" + onBadInput; // cada 3 inputs malos se frustra más
             }
-            System.out.println(onBadInput);
+            System.out.print(onBadInput);
         }
         if (c > 3)
             System.out.println("POR FIN");

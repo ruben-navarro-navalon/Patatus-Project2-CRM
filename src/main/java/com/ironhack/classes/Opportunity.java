@@ -2,9 +2,6 @@ package com.ironhack.classes;
 
 import com.ironhack.enums.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Opportunity {
     // Properties
     private int id;
