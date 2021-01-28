@@ -1,7 +1,7 @@
 package com.ironhack.classes;
 
 public class Contact {
-    // Propierties:
+    // Properties:
     private int id;
     private String name;
     private String phoneNumber;
@@ -20,6 +20,9 @@ public class Contact {
         setCompanyName(companyName);
     }
 
+    // -----------------Methods------------------
+
+    // Override of the toString() method to display the Contacts in a more friendly way.
     @Override
     public String toString() {
         return "ID-" + id +

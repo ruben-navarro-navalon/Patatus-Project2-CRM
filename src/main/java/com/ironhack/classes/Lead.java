@@ -20,6 +20,18 @@ public class Lead {
         setCompanyName(companyName);
     }
 
+    // -----------------Methods------------------
+
+    // Override of the toString() method to display the Leads in a more friendly way.
+    @Override
+    public String toString() {
+        return "ID-" + id +
+                " | name: " + name +
+                " | phoneNumber: " + phoneNumber +
+                " | email: " + email +
+                " | companyName: " + companyName;
+    }
+
     //Getters & Setters
     public int getId() {
         return id;
@@ -63,15 +75,6 @@ public class Lead {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
-    }
-
-    @Override
-    public String toString() {
-        return "ID-" + id +
-                " | name: " + name +
-                " | phoneNumber: " + phoneNumber +
-                " | email: " + email +
-                " | companyName: " + companyName;
     }
 }
 

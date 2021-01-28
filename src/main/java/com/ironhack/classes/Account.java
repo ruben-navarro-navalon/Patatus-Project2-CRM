@@ -17,7 +17,7 @@ public class Account {
     // This is for the incremented self-generated id:
     private static int idGenerator = 0;
 
-    // Constructor:
+    // Constructor
     public Account(Industry industry, int employeeCount, String city, String country, List<Contact> contactList, List<Opportunity> opportunityList) {
         setId();
         setIndustry(industry);
@@ -28,17 +28,21 @@ public class Account {
         setOpportunityList(opportunityList);
     }
 
+    // -----------------Methods------------------
+
+    // Method to add a contact to a contact list.
     public void addToContactList(Contact contact){
         getContactList().add(contact);
     }
+
+    // Method to add an opportunity to an opportunity list.
     public void addToOpportunityList(Opportunity opportunity){
         getOpportunityList().add(opportunity);
     }
 
+    // Override of the toString() method to display the Accounts in a more friendly way.
     @Override
     public String toString() {
-
-
         return "\n   ID-" + id +
                 " | industry: " + industry +
                 " | employeeCount: " + employeeCount +
@@ -54,7 +58,7 @@ public class Account {
                 .collect(Collectors.joining("\n"));
     }
 
-    // Gettes & Setters:
+    // Getters & Setters:
     public int getId() {
         return id;
     }

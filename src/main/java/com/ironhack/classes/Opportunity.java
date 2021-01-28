@@ -6,11 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Opportunity {
+    // Properties
     private int id;
     private int quantity;
     private Contact decisionMaker;
     private Status status;
     private Product product;
+
+    // To generate autoincrementID:
+    private static int idGenerator = 0;
 
     //Constructor
     public Opportunity(Contact decisionMaker, Product product, int quantity) {
@@ -21,21 +25,21 @@ public class Opportunity {
         setQuantity(quantity);
     }
 
-    // To generate autoincrementID:
-    private static int idGenerator = 0;
+    // -----------------Methods------------------
 
-    //Method to call from menu
+    // Method to call from menu --> to close an opportunity as successful.
     public void closeWon(){
         this.setStatus(Status.CLOSED_WON);
         System.out.println("The opportunity " + this.getId() + " is won. Closing it.");
     }
 
-    //Method to call from menu
+    // Method to call from menu --> to close an opportunity as lost
     public void closeLost(){
         this.setStatus(Status.CLOSED_LOST);
         System.out.println("The opportunity " + this.getId() + " is lost. Closing it.");
     }
 
+    // Override of the toString() method to display the Opportunities in a more friendly way.
     @Override
     public String toString() {
         return "ID-" + id +

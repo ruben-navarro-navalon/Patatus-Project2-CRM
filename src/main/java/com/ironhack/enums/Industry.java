@@ -1,8 +1,8 @@
 package com.ironhack.enums;
-
 import com.ironhack.main.menu.command.Command;
 
 public enum Industry {
+    // Values
     PRODUCE("Produce"),
     ECOMMERCE("e-Commerce"),
     MANUFACTURING("Manufacturing"),
@@ -20,6 +20,7 @@ public enum Industry {
 
     private static final Industry values[] = values();
     public static Industry get(int ordinal) { return values[ordinal]; }
+
 
     public static boolean isValid(String input) {
         try {
