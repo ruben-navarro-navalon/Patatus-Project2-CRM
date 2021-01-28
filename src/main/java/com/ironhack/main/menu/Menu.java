@@ -11,8 +11,11 @@ import java.util.stream.Collectors;
 
 
 public class Menu {
-
+    // Properties
+    // To display the prompt in yellow.
     private static final String USER_PROMPT = MenuColors.setColorYellow("CRM:>") + " ";
+
+    // Location of help source.
     private static final String HELP_FILEPATH = "src/main/resources/.help";
 
 
@@ -21,8 +24,8 @@ public class Menu {
     private final Map<Integer, Opportunity> opportunityMap = new HashMap<>();
     private final Scanner scanner = new Scanner(System.in);
 
+    // Show main menu and takes you to each method according to the command type.
     public void show(){
-
 
         while (true) {
             System.out.print(USER_PROMPT);
@@ -104,14 +107,17 @@ public class Menu {
         }
     }
 
+    // This method allows us to normalize the user's input and obtain their arguments.
     private String[] getArgsFromInput(String userInput) {
         return userInput.toUpperCase().trim().split(" +");
     }
 
+    // Method to check if a command is valid or not.
     public Command checkCommand(String userInput) {
         return Command.getCommand(userInput);
     }
 
+    // Method in which we ask the user for the necessary data to create a lead, and the we create a new lead.
     private Lead newLead() {
 
         System.out.print("Name: ");
@@ -129,6 +135,7 @@ public class Menu {
         return null;
     }
 
+    // Method to check that the string that is needed has the required format.
     private String readFormattedString(String onBadInput, String regex) {
         String input;
         int c = 0;
@@ -147,10 +154,12 @@ public class Menu {
         return input;
     }
 
+    // Method to display a list with all the existing leads in the database.
     private void showLeads() {
         System.out.println(mapValuesToString(leadMap));
     }
 
+    // Method to display all the information regarding a lead, indicating his id.
     private Lead lookupLead(int id) {
         Lead lead = leadMap.get(id);
         if (lead == null)
@@ -159,6 +168,10 @@ public class Menu {
         return lead;
     }
 
+    // Method to convert a lead into an opportunity. When this happens, the lead disappears
+    // from the lead list, and an account is created in its place. This account includes the
+    // information of the lead converted into a contact, and an opportunity with the information
+    // regarding the possible sale.
     private Account convertLead(Lead lead) {
 
         Contact decisionMaker = createContact(lead);
@@ -167,10 +180,13 @@ public class Menu {
         return createAccount(decisionMaker, opportunity);
     }
 
+    // Method to create a contact with the information that had been registered in the lead that has been converted
     private Contact createContact(Lead lead) {
         return new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
     }
 
+    // Method to create an opportunity: when a lead is converted to an opportunity,
+    // the user will be asked for the information regarding the possible sale.
     private Opportunity createOpportunity(Contact decisionMaker) {
         String productOption;
         do {
@@ -189,6 +205,7 @@ public class Menu {
         return opportunity;
     }
 
+    // Method to verify that the user does not enter a negative number
     private int readNonNegativeInt(String onBadInput) {
         int n = -1;
         int c = 0;
@@ -211,6 +228,9 @@ public class Menu {
         return n;
     }
 
+    // Method to create an account: when a lead becomes an opportunity, an account is generated that
+    // includes your contact (with the information that we had saved in your lead), and the information
+    // regarding the possible sale, which will be asked to the user.
     private Account createAccount(Contact contact, Opportunity opportunity) {
         String industryOption;
         do {
@@ -233,6 +253,7 @@ public class Menu {
         return account;
     }
 
+    // With this method, we will close an opportunity as successful, indicating the id number.
     private void closeWonOpp(int id) {
         try {
             opportunityMap.get(id).closeWon();
@@ -240,6 +261,8 @@ public class Menu {
             printOpportunityNotFound(id);
         }
     }
+
+    // With this method, we will close an opportunity as lost, indicating the id number.
     private void closeLostOpp(int id) {
         try {
             opportunityMap.get(id).closeLost();
@@ -248,11 +271,12 @@ public class Menu {
         }
     }
 
+    // Method to display the list of accounts that are registered in the database.
     private void showAccounts() {
         System.out.println(mapValuesToString(accountMap));
     }
 
-
+    // Method to show, at any time, the commands that the user has at his disposal.
     private void printHelp() {
         try {
             File file = new File(HELP_FILEPATH);
@@ -267,19 +291,23 @@ public class Menu {
         }
     }
 
+    // Method that displays an error message when the user enters a command that is not valid
     private void printUnknownCommand(String userInput) {
         //System.out.println(MenuColors.setColorRed("'" + userInput + "' is not a valid command."));
         System.out.println("'" + userInput + "' is not a valid command.");
     }
 
+    // Method that shows an error message when the user searches for a lead with an id that does not exist.
     private void printLeadNotFound(int id) {
         System.out.println("Lead with id=" + id + " not found.");
     }
 
+    // Method that displays an error message when the user searches for an opportunity with an id that does not exist
     private void printOpportunityNotFound(int id) {
         System.out.println("Opportunity with id=" + id + " not found.");
     }
 
+    // Method to display the values in a more user-friendly way
     public <T, T2> String mapValuesToString(Map<T2, T> map) {
         return map.values().stream()
                 .map(T::toString)

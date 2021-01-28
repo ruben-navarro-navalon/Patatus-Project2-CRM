@@ -1,6 +1,7 @@
 package com.ironhack.main.menu.command;
 
 public enum Command {
+    // List of available commands
     UNKNOWN("UNKNOWN", 0),
     NEW_LEAD(Keyword.NEW + " " + Keyword.LEAD, 0),
     SHOW_LEADS(Keyword.SHOW + " " + Keyword.LEADS, 0),
@@ -12,34 +13,44 @@ public enum Command {
     HELP(Keyword.HELP, 0),
     EXIT(Keyword.EXIT, 0);
 
+    // Properties
     private final String symbol;
     private final int nArgs;
 
+    // -----------------Methods------------------
+
+    // Command constructor with symbol and number of arguments.
     private Command(String symbol, int nArgs) {
         this.symbol = symbol;
         this.nArgs = nArgs;
     }
 
+    // To get the symbol.
     private String getSymbol() {
         return this.symbol;
     }
 
+    // To know the number of words that make up the command.
     private int length() {
         return symbol.split(" ").length;
     }
 
+    // To know the number of arguments it receives.
     private int nArgs() {
         return this.nArgs;
     }
 
+    // To check if it receives arguments.
     private boolean hasArgs() {
         return this.nArgs > 0;
     }
 
+    // To read the argument.
     public int getArg(String[] inputArgs) {
         return Integer.parseInt(inputArgs[length() + nArgs() - 1]);
     }
 
+    // Method to get a command from the users input.
     public static Command getCommand(String userInput) {
         String[] inputArgs = userInput.toUpperCase().trim().split(" +");
         String normalizedInput = "";
@@ -68,6 +79,9 @@ public enum Command {
         return UNKNOWN;
     }
 
+    // To save the values in an array
     private static final Command values[] = values();
+
+    // To have the value according to the position.
     public static Command get(int ordinal) { return values[ordinal]; }
 }

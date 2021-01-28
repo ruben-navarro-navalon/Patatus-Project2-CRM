@@ -1,6 +1,7 @@
 package com.ironhack.main.menu.command;
 
 public class Keyword {
+    // All the keywords you can use in the CRM system.
     public static final String NEW = "NEW";
     public static final String LEAD = "LEAD";
     public static final String SHOW = "SHOW";
