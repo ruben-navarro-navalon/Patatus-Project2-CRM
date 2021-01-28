@@ -19,10 +19,10 @@ public class Menu {
     private final Map<Integer, Lead> leadMap = new HashMap<>();
     private final Map<Integer, Account> accountMap = new HashMap<>();
     private final Map<Integer, Opportunity> opportunityMap = new HashMap<>();
+    private final Scanner scanner = new Scanner(System.in);
 
     public void show(){
 
-        Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.print(USER_PROMPT);
@@ -89,6 +89,7 @@ public class Menu {
                     break;
 
                 case EXIT:
+                    System.out.println("talué!");
                 default:
                     return;
             }
@@ -105,17 +106,34 @@ public class Menu {
 
     private Lead newLead() {
 
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Name: ");
         String name = scanner.nextLine().trim();
         System.out.print("Phone number: ");
-        String phoneNumber = scanner.nextLine().trim();
+        String phoneNumber = readFormattedString("VALID phone number: ", "\\+?\\d{9,13}");
         System.out.print("Email address: ");
-        String email = scanner.nextLine().trim();
+        String email =  readFormattedString("VALID email address: ", "[\\w-.]+@(?:[\\w-]+\\.)+[\\w-]+");
         System.out.print("Company name: ");
         String companyName = scanner.nextLine().trim();
 
         return new Lead(name, phoneNumber, email, companyName);
+    }
+
+    private String readFormattedString(String onBadInput, String regex) {
+        String input;
+        int c = 0;
+        while (true) {
+            input = scanner.nextLine().trim();
+            if (input.matches(regex))
+                break;
+            c++;
+            if (c%3 == 0) {
+                onBadInput = "Porfa, deja de vacilarme TT.TT\n" + onBadInput; // cada 3 inputs malos se frustra más
+            }
+            System.out.println(onBadInput);
+        }
+        if (c > 3)
+            System.out.println("POR FIN");
+        return input;
     }
 
     private void showLeads() {
@@ -143,8 +161,6 @@ public class Menu {
     }
 
     private Opportunity createOpportunity(Contact decisionMaker) {
-        Scanner scanner = new Scanner(System.in);
-
         String productOption;
         do {
             System.out.print("Product (" + Product.showOptions() + "): ");
@@ -153,7 +169,8 @@ public class Menu {
         Product product = Product.get(productOption);
 
         System.out.print("Quantity: ");
-        int quantity = Integer.parseInt(scanner.nextLine().trim());
+        int quantity = readNonNegativeInt("VALID Quantity:");
+
 
         Opportunity opportunity = new Opportunity(decisionMaker, product, quantity);
         opportunityMap.put(opportunity.getId(), opportunity);
@@ -161,9 +178,29 @@ public class Menu {
         return opportunity;
     }
 
-    private Account createAccount(Contact contact, Opportunity opportunity) {
-        Scanner scanner = new Scanner(System.in);
+    private int readNonNegativeInt(String onBadInput) {
+        int n = -1;
+        int c = 0;
+        while (n < 0) {
+            String line = scanner.nextLine().trim();
+            try {
+                n = Integer.parseInt(line);
+                if (n < 0)
+                    System.out.print(onBadInput);
+            } catch (Exception e) {
+                System.out.print(onBadInput);
+            }
+            c++;
+            if (c%3 == 0) {
+                onBadInput = "Porfa, deja de vacilarme TT.TT\n" + onBadInput; // cada 3 inputs malos se frustra más
+            }
+        }
+        if (c > 3)
+            System.out.println("POR FIN");
+        return n;
+    }
 
+    private Account createAccount(Contact contact, Opportunity opportunity) {
         String industryOption;
         do {
             System.out.print("Industry (" + Industry.showOptions() + "): ");
@@ -172,7 +209,7 @@ public class Menu {
         Industry industry = Industry.get(industryOption);
 
         System.out.print("Number of employees: ");
-        int employeeCount = Integer.parseInt(scanner.nextLine().trim());
+        int employeeCount = readNonNegativeInt("VALID Number of employees:");
         System.out.print("City: ");
         String city = scanner.nextLine().trim();
         System.out.print("Country: ");
