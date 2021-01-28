@@ -1,9 +1,10 @@
 package com.ironhack.main;
 
+import com.ironhack.main.menu.command.Command;
+import com.ironhack.main.menu.Menu;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.nio.charset.Charset;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -163,5 +164,32 @@ class MenuTest {
         String input = "";
         assertEquals(Command.UNKNOWN, menu.checkCommand(input));
     }
+
+    @Test
+    void checkCommand_help_HELP() {
+        String input = "help";
+        assertEquals(Command.HELP, menu.checkCommand(input));
+    }
+
+
+    @Test
+    void checkCommand_exit_EXIT() {
+        String input = "exit";
+        assertEquals(Command.EXIT, menu.checkCommand(input));
+    }
+
+    @Test
+    void checkCommand_showAccounts_SHOW_ACCOUNTS() {
+        String input = "show accounts";
+        assertEquals(Command.SHOW_ACCOUNTS, menu.checkCommand(input));
+    }
+
+
+    @Test
+    void checkCommand_showAccount_UNKNOWN() {
+        String input = "show account";
+        assertEquals(Command.UNKNOWN, menu.checkCommand(input));
+    }
+
 
 }
